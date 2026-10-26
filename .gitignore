@@ -4,9 +4,10 @@
 .env.*
 !.env.example
 
-# Uploads serão implementados em uma etapa futura
+# Imagens enviadas ficam apenas no ambiente local
 /assets/uploads/*
 !/assets/uploads/.gitkeep
+!/assets/uploads/.htaccess
 
 # Arquivos de ferramentas e verificações locais
 /.validation/

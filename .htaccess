@@ -1,6 +1,9 @@
 # Estas regras são aplicadas pelo Apache quando AllowOverride está habilitado.
 Options -Indexes
 
+# Diretórios internos e metadados do Git não são páginas públicas.
+RedirectMatch 403 "(?i)/(?:\.git|\.validation|config|includes|database|docs|tests)(?:/|$)"
+
 # Impede o download de documentação, SQL, arquivos ocultos e logs.
 <FilesMatch "(?i:\.(?:sql|md|log|ini)$|^\.)">
     Require all denied

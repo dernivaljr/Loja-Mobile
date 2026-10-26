@@ -1,8 +1,17 @@
-# Administração — etapa 02
+# Administração de produtos e pedidos
 
-`index.php` é a área administrativa inicial, protegida por `exigir_admin()`.
-Visitantes são redirecionados ao login e clientes recebem HTTP 403. O painel
-mostra a saudação, a previsão de gerenciamento de produtos na etapa 03, retorno
-à loja e logout por POST com CSRF na navegação. Não há CRUD implementado.
+Todas as páginas exigem `exigir_admin()` antes de qualquer saída HTML.
+Visitantes são redirecionados ao login; clientes recebem HTTP 403.
+
+- `index.php`: lista produtos e pedidos persistidos no banco.
+- `produto.php`: cadastro e edição, com upload obrigatório no cadastro e
+  substituição opcional na edição. Preço positivo e estoque inteiro não negativo.
+- `excluir-produto.php`: aceita somente POST com CSRF. Produtos já referenciados
+  por pedidos não são removidos; as chaves estrangeiras preservam o histórico.
+
+Uploads aceitam somente JPEG, PNG e WebP até 2 MB, validando extensão, MIME real,
+estrutura de imagem e origem do upload. Nomes são aleatórios; a pasta contém
+regras Apache para impedir execução. Ao substituir ou excluir, somente arquivos
+gerados pelo módulo em `assets/uploads/` podem ser removidos.
 
 O procedimento de promoção manual de um cliente está no README principal.

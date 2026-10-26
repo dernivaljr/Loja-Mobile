@@ -14,7 +14,7 @@ function formatar_preco(string $preco): string
 function buscar_produtos(PDO $conexao): array
 {
     $consulta = $conexao->prepare(
-        'SELECT id, marca, modelo, descricao, preco, imagem
+        'SELECT id, codigo, marca, modelo, descricao, preco, imagem, quantidade_estoque
          FROM produtos
          ORDER BY id ASC'
     );
