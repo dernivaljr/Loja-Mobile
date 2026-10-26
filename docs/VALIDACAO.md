@@ -138,3 +138,90 @@ configurado e não houve push.
 
 O CRUD de produtos, upload, carrinho, checkout, pedidos, recuperação de senha e
 confirmação de e-mail permanecem fora desta entrega. A etapa 03 não foi iniciada.
+
+## Etapa 03 — Finalização do e-commerce
+
+Concluída em 26/10/2026, preservando o histórico das validações anteriores acima.
+O prompt de finalização autorizou CRUD, carrinho, checkout e pedidos nesta entrega.
+
+### Ambiente utilizado
+
+Windows, PHP 8.2.12, Apache 2.4.58 e MariaDB 10.4.32 do XAMPP instalado. Foi
+criada uma configuração Apache isolada em 127.0.0.1:8080 e uma instância MariaDB
+isolada em 127.0.0.1:3307, com banco loja_mobile_teste. Nenhum banco ou serviço
+preexistente foi modificado. O Apache usou os .htaccess reais do projeto.
+
+### Testes executados e aprovados
+
+| Área | Resultado |
+| --- | --- |
+| Sintaxe | php -l nos 23 arquivos PHP entregues, sem erros |
+| Apache | Configuração temporária aprovada por httpd -t; aplicação servida com o módulo PHP do XAMPP |
+| Instalação | Schema/seed importados; seed reimportado sem duplicar produtos |
+| Migração | Schema antigo do commit 079c6cf migrado em banco isolado; pedido preexistente e total preservados, com chave nula |
+| Cadastro/login | Cadastro válido, hash, perfil cliente forçado, duplicidade, confirmação divergente e senha incorreta testados por HTTP |
+| Permissões | Visitantes redirecionados; clientes bloqueados no painel, cadastro/edição e exclusão; admin impedido de finalizar como cliente |
+| Produtos | Cadastro, código duplicado, edição sem upload, preço positivo, estoque não negativo, exclusão e bloqueio de exclusão de produto vendido |
+| Imagens | PNG, JPEG e WebP reais aceitos; arquivo falso, extensão executável e tamanho maior que 2 MB rejeitados; substituição remove imagem anterior |
+| Proteção Apache | Bloqueio de .git, configuração, includes, SQL, testes e diretório temporário; pasta de uploads sem listagem |
+| Execução em uploads | Arquivo PHP de prova colocado localmente em uploads recebeu HTTP 403 e não foi executado |
+| Carrinho | Adição, alteração 2→3, remoção, recusa de quantidade superior ao estoque e manutenção do carrinho após login |
+| Preços | Valor enviado pelo navegador ignorado; preço atual do banco usado; mudança durante revisão exige nova confirmação |
+| Checkout | Pedido confirmado, itens persistidos, preço unitário preservado, baixa exata do estoque e carrinho limpo após commit |
+| Reenvio | Mesma confirmação retorna o mesmo pedido sem nova baixa de estoque |
+| Falta de estoque | Produto esgotado não oferece compra; esgotamento após revisão recusa checkout e não deixa pedido parcial |
+| Confirmação | Proprietário acessa; outra conta recebe HTTP 404 |
+| Painel | Lista pedido persistido com número, cliente, valor, data e status |
+| Segurança | Payloads SQL Injection em ID/login recusados; XSS em modelo/descrição escapado; CSRF de CRUD/carrinho/checkout/logout recusado |
+| Múltiplos itens | Pedido com dois produtos/quantidades 2 e 3 confirmou total 40.50 e baixas corretas; falha no segundo não altera o primeiro |
+| Concorrência | Dois processos PHP disputaram uma unidade: um pedido confirmado, um recusado e estoque final zero |
+| Idempotência concorrente | Dois processos com a mesma chave retornaram o mesmo ID e reduziram estoque uma única vez |
+| Rollback induzido | Trigger de teste provocou falha SQL após iniciar a gravação; nenhum pedido/item parcial persistiu e estoque permaneceu intacto |
+| Caminhos | Roteiro HTTP completo passou na raiz e em /Loja-Mobile/ sob Apache |
+| Navegador | Catálogo → detalhe → 2 unidades no carrinho → cadastro → login → revisão → confirmação real do pedido no banco |
+| Responsividade | Detalhe, carrinho, painel e formulário de produtos conferidos em celular de 390 px, sem overflow horizontal da página; tabelas têm rolagem interna |
+
+O pedido criado pelo navegador totalizou R$ 2.599,80; a confirmação foi aberta
+com os dados persistidos e o painel mostrou estoque de 12 para 10. Não houve
+pagamento real. A prévia teve uma interrupção de comunicação, recuperada em uma
+nova aba; o pedido foi conferido por consulta PDO e pela página de confirmação.
+
+### Scripts entregues
+
+- tests/integracao.php: fluxo HTTP real com cookies, multipart, uploads e
+  verificações no banco. Aceita apenas URL local com porta explícita e banco _teste.
+- tests/concorrencia.php e tests/compra-concorrente.php: dois processos independentes
+  para disputa de estoque, chave duplicada e rollback com falha SQL induzida.
+- tests/fixtures: imagens mínimas locais JPEG, PNG e WebP; não dependem de GD
+  para executar os testes. Nenhum framework ou pacote foi instalado.
+
+Os roteiros removem somente os registros/arquivos de sua própria execução.
+Uma dificuldade de limpeza de diretórios temporários no Windows foi resolvida
+usando fixtures fixas e arquivos temporários individuais. A execução final passou
+sem avisos ou erros de limpeza.
+
+### Correções e decisões verificadas
+
+- O login agora preserva o carrinho do visitante ao regenerar a sessão.
+- Links do catálogo levam aos detalhes; navegação oferece carrinho funcional.
+- Uploads são validados no servidor e servidos como arquivos estáticos pelo Apache.
+- Diretórios internos e metadados Git têm bloqueio HTTP explícito.
+- Cálculos usam centavos inteiros; checkout tem locks, transação e chave única.
+- Mudança de preço exige nova revisão, evitando confirmação silenciosa de outro total.
+- Pedidos preservam o preço unitário; FK impede apagar produtos vendidos.
+- Tabelas administrativas têm largura mínima e rolagem interna para leitura no celular.
+
+### Limitações reais e encerramento
+
+Não foi testada uma conexão HTTPS: o atributo Secure é condicionado a HTTPS;
+os testes usaram HTTP local. A interface gráfica do phpMyAdmin não foi usada
+para importação; os mesmos SQLs foram executados pelo PDO no MariaDB do XAMPP.
+Não foram testados outros sistemas operacionais/versões de MySQL.
+
+Não há pendência funcional conhecida para o escopo solicitado. Frete, pagamentos,
+recuperação de senha e confirmação de e-mail não fazem parte do projeto.
+A instalação e o uso estão documentados no README; nenhum teste foi transferido
+ao usuário. Configuração, serviços e dados temporários foram removidos ao final.
+Commits separados registram administração, compra e testes/documentação, além
+dos dois commits das etapas anteriores. O remoto de entrega é privado e não
+inclui credenciais, configuração local, sessões ou uploads.
