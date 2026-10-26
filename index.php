@@ -72,21 +72,22 @@ require __DIR__ . '/includes/cabecalho.php';
                             </div>
                             <div class="produto-conteudo">
                                 <span class="produto-marca"><?= escapar($produto['marca']) ?></span>
-                                <h3><?= escapar($produto['modelo']) ?></h3>
+                                <h3><a href="<?= escapar(url_loja('produto.php?id=' . $produto['id'])) ?>"><?= escapar($produto['modelo']) ?></a></h3>
                                 <p class="produto-descricao"><?= escapar($produto['descricao']) ?></p>
                                 <p class="produto-preco"><?= escapar(formatar_preco($produto['preco'])) ?></p>
-                                <span class="produto-nota">Valor ilustrativo</span>
+                                <span class="produto-nota"><?= (int) $produto['quantidade_estoque'] > 0 ? 'Em estoque' : 'Indisponível · sem estoque' ?></span>
+                                <a class="link-produto" href="<?= escapar(url_loja('produto.php?id=' . $produto['id'])) ?>">Conhecer celular <span aria-hidden="true">↗</span></a>
                             </div>
                         </article>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
-            <p class="catalogo-nota">Produtos, imagens e valores fictícios para fins acadêmicos. Compras ainda não estão disponíveis.</p>
+            <p class="catalogo-nota">Ambiente acadêmico de demonstração. Compras simuladas, sem pagamento real.</p>
         </section>
 
         <section class="sobre container" id="sobre" aria-labelledby="titulo-sobre">
             <div><span class="sobretitulo">TECNOLOGIA QUE CONECTA. CONHECIMENTO QUE TRANSFORMA.</span><h2 id="titulo-sobre">Uma loja em construção.<br>Um aprendizado de verdade.</h2></div>
-            <div class="sobre-descricao"><p>A Loja Mobile é um projeto acadêmico de Desenvolvimento Web II, do curso de Desenvolvimento de Software Multiplataforma da Fatec.</p><p>A vitrine de celulares agora conta com cadastro e acesso à sua conta. Novas funcionalidades chegarão nas próximas fases.</p><span class="etapa"><span aria-hidden="true"></span> ETAPA 02 · AUTENTICAÇÃO</span></div>
+            <div class="sobre-descricao"><p>A Loja Mobile é um projeto acadêmico de Desenvolvimento Web II, do curso de Desenvolvimento de Software Multiplataforma da Fatec.</p><p>Do catálogo ao pedido: explore os celulares, crie sua conta e experimente uma compra simulada, com estoque atualizado a cada confirmação.</p><span class="etapa"><span aria-hidden="true"></span> PROJETO ACADÊMICO · COMPRA SIMULADA</span></div>
         </section>
     </main>
 <?php require __DIR__ . '/includes/rodape.php'; ?>

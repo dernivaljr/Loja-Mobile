@@ -111,6 +111,7 @@ function cadastrar_cliente(PDO $conexao, string $nome, string $email, string $se
 
 function autenticar_usuario(array $usuario): void
 {
+    $carrinho = is_array($_SESSION['carrinho'] ?? null) ? $_SESSION['carrinho'] : [];
     session_regenerate_id(true);
     $_SESSION = [
         'usuario' => [
@@ -118,6 +119,7 @@ function autenticar_usuario(array $usuario): void
             'nome' => $usuario['nome'],
             'perfil' => $usuario['perfil'],
         ],
+        'carrinho' => $carrinho,
     ];
     token_csrf();
 }

@@ -33,9 +33,11 @@ CREATE TABLE IF NOT EXISTS produtos (
 CREATE TABLE IF NOT EXISTS pedidos (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT UNSIGNED NOT NULL,
+    chave_checkout CHAR(64) DEFAULT NULL,
     total DECIMAL(10,2) NOT NULL,
     status ENUM('pendente', 'confirmado', 'cancelado') NOT NULL DEFAULT 'pendente',
     criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_pedidos_checkout UNIQUE (chave_checkout),
     CONSTRAINT chk_pedidos_total CHECK (total >= 0),
     CONSTRAINT fk_pedidos_usuario FOREIGN KEY (usuario_id)
         REFERENCES usuarios (id) ON DELETE RESTRICT ON UPDATE RESTRICT

@@ -27,6 +27,7 @@ $usuario_navegacao = obter_usuario_logado();
                 <a href="<?= escapar(url_loja('#sobre')) ?>">Sobre o projeto</a>
             </nav>
             <div class="navegacao-conta">
+                <a href="<?= escapar(url_loja('carrinho.php')) ?>">Carrinho (<?= count(is_array($_SESSION['carrinho'] ?? null) ? $_SESSION['carrinho'] : []) ?>)</a>
                 <?php if ($usuario_navegacao): ?>
                     <span class="nome-usuario" title="<?= escapar($usuario_navegacao['nome']) ?>">Olá, <?= escapar($usuario_navegacao['nome']) ?></span>
                     <?php if ($usuario_navegacao['perfil'] === 'admin'): ?><a href="<?= escapar(url_loja('admin/index.php')) ?>">Painel Administrativo</a><?php endif; ?>
