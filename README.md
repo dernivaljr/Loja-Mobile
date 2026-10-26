@@ -1,5 +1,7 @@
 # Loja Mobile
 
+Repositório privado de entrega: [dernivaljr/Loja-Mobile](https://github.com/dernivaljr/Loja-Mobile).
+
 E-commerce acadêmico de celulares da disciplina **Desenvolvimento Web II**,
 curso de Desenvolvimento de Software Multiplataforma (DSM), Fatec.
 

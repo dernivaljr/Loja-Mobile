@@ -225,3 +225,5 @@ ao usuário. Configuração, serviços e dados temporários foram removidos ao f
 Commits separados registram administração, compra e testes/documentação, além
 dos dois commits das etapas anteriores. O remoto de entrega é privado e não
 inclui credenciais, configuração local, sessões ou uploads.
+
+Repositório verificado: https://github.com/dernivaljr/Loja-Mobile (privado).
