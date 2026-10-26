@@ -4,13 +4,15 @@ Projeto acadêmico de **Desenvolvimento Web II**, do curso de Desenvolvimento de
 Software Multiplataforma (DSM) da Fatec. O objetivo é desenvolver um e-commerce
 de celulares de forma incremental, com código simples e legível.
 
-**Etapa atual: 01 — Fundação.** Inclui modelagem do banco, conexão PDO, catálogo
-consultado no MySQL e landing page responsiva. Login, carrinho, checkout, pedidos
-e administração ainda não estão implementados. Não há pagamento real.
+**Etapa atual: 02 — Autenticação e controle de acesso.** Inclui a fundação,
+cadastro de clientes, login, logout, sessões e painel administrativo inicial
+protegido. Carrinho, checkout, pedidos, CRUD e upload ainda não estão
+implementados. Não há pagamento real.
 
 ## Tecnologias
 
-- PHP 8.x procedural, com as extensões PDO e `pdo_mysql` habilitadas.
+- PHP 8.x procedural, com as extensões PDO, `pdo_mysql` e `mbstring` habilitadas
+  (disponíveis no XAMPP).
 - MySQL 8.0.16+ ou MariaDB 10.4+ (disponível no XAMPP). As versões mínimas
   indicadas garantem a aplicação das constraints `CHECK` utilizadas.
 - HTML5, CSS3, imagens SVG locais e Git. Sem frameworks, Composer ou pacotes.
@@ -23,8 +25,12 @@ Loja-Mobile/
 ├── .gitignore
 ├── .htaccess
 ├── index.php
+├── cadastro.php
+├── login.php
+├── logout.php
 ├── README.md
 ├── admin/
+│   ├── index.php
 │   └── README.md
 ├── assets/
 │   ├── css/
@@ -43,14 +49,17 @@ Loja-Mobile/
 │   ├── ESPECIFICACAO.md
 │   └── VALIDACAO.md
 └── includes/
+    ├── acesso-negado.php
+    ├── autenticacao.php
     ├── cabecalho.php
     ├── conexao.php
     ├── funcoes.php
     └── rodape.php
 ```
 
-`admin/` contém somente uma nota sobre a etapa futura. Arquivos PHP são criados
-apenas quando utilizados. Não é necessário instalar dependências.
+`admin/index.php` contém somente o painel inicial protegido; não há CRUD nesta
+etapa. Não é necessário instalar dependências. O schema da etapa 01 já atende
+à autenticação e não precisou de migração.
 
 ## Instalação local no XAMPP
 
@@ -81,6 +90,62 @@ própria; não apague um banco com dados para aplicar alterações.
 ## Verificação local
 
 Os testes realizados nesta entrega e seus limites estão em `docs/VALIDACAO.md`.
+
+### Cadastro, login e logout
+
+1. Na navegação, clique em **Cadastrar**. Informe nome, e-mail, senha com pelo
+   menos 8 caracteres e a mesma senha na confirmação. O servidor limita o nome
+   a 120 caracteres e o e-mail a 254; a senha aceita no máximo 72 bytes para
+   impedir truncamento pelo bcrypt. Caracteres acentuados e emojis ocupam mais
+   de um byte. As senhas não são reapresentadas após erros de validação.
+2. Após o cadastro, a página redireciona para **Entrar** e mostra uma confirmação.
+   Todo cadastro público cria exclusivamente um `cliente`, mesmo se alguém
+   tentar enviar outro perfil no formulário.
+3. Entre com e-mail e senha. Um cliente retorna ao catálogo; um administrador
+   vai ao painel. Nome e opção **Sair** aparecem na navegação autenticada.
+4. Clique em **Sair**. O formulário envia POST com token CSRF, os dados da sessão
+   são apagados, o cookie é invalidado e a navegação retorna à página inicial.
+   Acessar `logout.php` por GET devolve HTTP 405 sem encerrar a sessão.
+
+Não use senhas de contas reais nos testes acadêmicos. Não há recuperação de
+senha nem confirmação de e-mail nesta etapa.
+
+### Promover um cliente a administrador no phpMyAdmin
+
+Cadastre uma conta pelo site com uma senha escolhida por você. No phpMyAdmin,
+selecione `loja_mobile`, abra **SQL** e localize o ID da conta:
+
+```sql
+SELECT id, nome, email, perfil FROM usuarios ORDER BY id;
+```
+
+Depois de conferir o ID e o e-mail, substitua os dois exemplos abaixo pelos
+valores da conta que deseja promover. O exemplo não cadastra nenhum usuário:
+
+```sql
+UPDATE usuarios
+SET perfil = 'admin'
+WHERE id = 123 AND email = 'seu-email@exemplo.com' AND perfil = 'cliente';
+```
+
+Confira se exatamente uma linha foi alterada. Saia da conta e faça login
+novamente: o perfil é carregado na sessão durante o login. Acesse
+`http://localhost/Loja-Mobile/admin/index.php`. Para voltar ao perfil cliente,
+use o mesmo filtro com `SET perfil = 'cliente'` e `AND perfil = 'admin'`, e faça
+um novo login. Não há senha administrativa fixa ou cadastro público de admin.
+
+### Proteção das rotas
+
+- Em uma janela anônima, abra `admin/index.php`: deve redirecionar para o login.
+- Entre como cliente e digite a mesma URL: deve receber HTTP 403 e uma mensagem
+  de acesso restrito. Ocultar o link não é o mecanismo de proteção; a função
+  `exigir_admin()` é executada antes de qualquer conteúdo do painel.
+- Entre como administrador: deve ver saudação, aviso sobre a etapa 03, retorno
+  à loja e logout na navegação. CSS e links devem funcionar dentro de `admin/`.
+- Depois do logout, o painel deve exigir login novamente. Um POST sem token
+  CSRF válido em cadastro, login ou logout deve receber HTTP 403.
+
+### Catálogo e ambiente
 
 - Confira os quatro produtos, imagens e preços em reais após importar o seed.
 - Teste uma janela de desktop e uma tela de celular; use os links de navegação
@@ -124,11 +189,20 @@ Abra `http://127.0.0.1:8080`. Esse servidor é somente para desenvolvimento.
 - Chaves estrangeiras impedem a remoção de registros vinculados a pedidos,
   preservando seu histórico. Quantidades e valores possuem constraints.
 - SVGs foram criados para a demonstração; não há fontes, imagens ou APIs externas.
-- A configuração de sessão, os hashes de senha, o controle de acesso, os
-  uploads validados e as transações serão aplicados quando seus módulos
-  forem implementados. Consulte `docs/ESPECIFICACAO.md`.
+- Sessões são iniciadas uma única vez, antes do HTML, com cookies `HttpOnly`,
+  `SameSite=Lax`, caminho limitado ao projeto e `Secure` quando servido por HTTPS.
+  O ID muda após login; somente ID, nome, perfil e token CSRF ficam na sessão.
+- Senhas usam `password_hash()`/`password_verify()`. Cadastro e login usam PDO
+  preparado; o perfil do cadastro é fixado no servidor. Tokens CSRF protegem
+  cadastro, login e logout. Redirecionamentos usam HTTP 303; páginas com sessão
+  recebem `Cache-Control: no-store`.
+- Uploads validados e transações de checkout permanecem para etapas futuras.
+  Consulte `docs/ESPECIFICACAO.md`.
 
-O projeto não foi inicializado como repositório Git durante esta entrega porque
-o diretório original não possuía `.git`. Não foi criado remoto nem feito push.
-Para iniciar o versionamento quando desejar, revise os arquivos e execute
-`git init`, `git add .` e `git commit -m "Implementa etapa 01: fundação da Loja Mobile"`.
+## Git local
+
+Na etapa 02, o Git foi inicializado e a fundação preservada em um primeiro
+commit (`9b7dfcc`, `Registra etapa 01: fundação da Loja Mobile`). A autenticação
+possui um commit separado, `Implementa etapa 02: autenticação e controle de acesso`.
+Confira com `git log --oneline`. Não foi configurado remoto nem executado push.
+`config/banco.php` e os arquivos temporários de validação são ignorados pelo Git.

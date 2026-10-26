@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/includes/conexao.php';
 require_once __DIR__ . '/includes/funcoes.php';
+require_once __DIR__ . '/includes/autenticacao.php';
 
 $produtos = [];
 $catalogo_indisponivel = false;
@@ -85,7 +86,7 @@ require __DIR__ . '/includes/cabecalho.php';
 
         <section class="sobre container" id="sobre" aria-labelledby="titulo-sobre">
             <div><span class="sobretitulo">TECNOLOGIA QUE CONECTA. CONHECIMENTO QUE TRANSFORMA.</span><h2 id="titulo-sobre">Uma loja em construção.<br>Um aprendizado de verdade.</h2></div>
-            <div class="sobre-descricao"><p>A Loja Mobile é um projeto acadêmico de Desenvolvimento Web II, do curso de Desenvolvimento de Software Multiplataforma da Fatec.</p><p>Esta é a primeira etapa: uma vitrine de celulares desenvolvida com PHP e MySQL. Novas funcionalidades chegarão nas próximas fases.</p><span class="etapa"><span aria-hidden="true"></span> ETAPA 01 · FUNDAÇÃO</span></div>
+            <div class="sobre-descricao"><p>A Loja Mobile é um projeto acadêmico de Desenvolvimento Web II, do curso de Desenvolvimento de Software Multiplataforma da Fatec.</p><p>A vitrine de celulares agora conta com cadastro e acesso à sua conta. Novas funcionalidades chegarão nas próximas fases.</p><span class="etapa"><span aria-hidden="true"></span> ETAPA 02 · AUTENTICAÇÃO</span></div>
         </section>
     </main>
 <?php require __DIR__ . '/includes/rodape.php'; ?>

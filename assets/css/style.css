@@ -134,3 +134,47 @@ h2 { font-size: 36px; font-weight: 500; letter-spacing: -1.4px; line-height: 1.2
 }
 @media (max-width: 350px) { .produtos-grid { grid-template-columns: 1fr; } nav { gap: 20px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .botao { transition: none; } }
+
+/* Etapa 02: formulários e navegação da conta reutilizam as cores da vitrine. */
+.cabecalho-conteudo { flex-wrap: wrap; padding-block: 18px; }
+.navegacao-conta { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 16px; font-size: 12px; }
+.navegacao-conta a:hover { color: var(--destaque); }
+.navegacao-conta form { margin: 0; }
+.nome-usuario { max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.link-cadastro { border: 1px solid var(--linha); border-radius: 5px; padding: 10px 13px; }
+.link-cadastro span { margin-left: 10px; }
+.botao-sair { border: 0; background: transparent; color: var(--destaque); font: inherit; padding: 10px 0; cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--destaque); outline-offset: 4px; }
+.area-conta { padding-block: 60px; min-height: calc(100vh - 200px); }
+.cartao-conta { max-width: 520px; margin-inline: auto; border: 1px solid var(--linha); border-radius: 8px; padding: 38px; background: #fcfbf8; }
+.cartao-conta > .sobretitulo { color: var(--secundario); font-size: 9px; }
+.cartao-conta h1 { font-size: 38px; letter-spacing: -1.5px; margin-block: 16px; line-height: 1.15; overflow-wrap: anywhere; }
+.cartao-conta > p { font-size: 13px; line-height: 1.8; color: var(--secundario); }
+.formulario-conta { margin-top: 27px; }
+.campo { display: flex; flex-direction: column; gap: 9px; margin-bottom: 20px; }
+.campo label { font-size: 12px; font-weight: 600; }
+.campo input { min-width: 0; width: 100%; font: inherit; font-size: 15px; color: var(--texto); padding: 13px 14px; background: var(--fundo); border: 1px solid #c9cfc2; border-radius: 5px; }
+.ajuda-campo { color: var(--secundario); font-size: 11px; line-height: 1.6; }
+.formulario-conta .botao { width: 100%; border: 0; font-family: inherit; cursor: pointer; margin-top: 3px; }
+.cartao-conta .alternativa-conta { text-align: center; margin-top: 26px; margin-bottom: 0; font-size: 12px; }
+.alternativa-conta a { color: var(--destaque); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.nota-conta { max-width: 520px; margin: 20px auto 0; text-align: center; color: var(--secundario); font-size: 10px; line-height: 1.7; }
+.mensagem { border-radius: 5px; padding: 14px 16px; font-size: 12px; line-height: 1.8; margin-top: 22px; overflow-wrap: anywhere; }
+.mensagem p { margin: 0; }
+.mensagem ul { padding-left: 17px; margin: 0; }
+.mensagem-erro { background: #f8e7df; border: 1px solid #ddb8a8; color: #853921; }
+.mensagem-sucesso { background: var(--verde); border: 1px solid #c3cdb4; color: #354d2f; }
+.painel-admin { max-width: 680px; }
+.aviso-painel { background: var(--verde); border-radius: 5px; padding: 24px; margin: 25px 0; }
+.aviso-painel h2 { font-size: 25px; }
+.aviso-painel p { font-size: 13px; line-height: 1.8; color: var(--secundario); }
+@media (max-width: 1100px) { .cabecalho-conteudo nav { gap: 18px; } .navegacao-conta { gap: 12px; } }
+@media (max-width: 800px) { .cabecalho-conteudo { justify-content: center; gap: 14px 30px; } .navegacao-conta { width: 100%; } }
+@media (max-width: 620px) {
+    .cabecalho-conteudo { padding-block: 18px; gap: 10px; }
+    .cabecalho-conteudo nav { gap: 24px; }
+    .area-conta { padding-block: 30px; }
+    .cartao-conta { padding: 26px 22px; }
+    .cartao-conta h1 { font-size: 32px; }
+    .aviso-painel { padding: 18px; }
+}
