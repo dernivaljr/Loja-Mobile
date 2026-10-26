@@ -1,0 +1,19 @@
+# Configuração local e credenciais
+/config/banco.php
+.env
+.env.*
+!.env.example
+
+# Uploads serão implementados em uma etapa futura
+/assets/uploads/*
+!/assets/uploads/.gitkeep
+
+# Arquivos de ferramentas e verificações locais
+/.validation/
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+/.idea/
+/.vscode/

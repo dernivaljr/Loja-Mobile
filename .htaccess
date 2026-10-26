@@ -1,0 +1,7 @@
+# Estas regras são aplicadas pelo Apache quando AllowOverride está habilitado.
+Options -Indexes
+
+# Impede o download de documentação, SQL, arquivos ocultos e logs.
+<FilesMatch "(?i:\.(?:sql|md|log|ini)$|^\.)">
+    Require all denied
+</FilesMatch>

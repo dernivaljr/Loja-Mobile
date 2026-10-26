@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="620" viewBox="0 0 640 620" fill="none">
+  <defs>
+    <linearGradient id="verde" x1="135" y1="120" x2="366" y2="480" gradientUnits="userSpaceOnUse"><stop stop-color="#7e8e79"/><stop offset=".6" stop-color="#425c49"/><stop offset="1" stop-color="#283e31"/></linearGradient>
+    <linearGradient id="laranja" x1="325" y1="141" x2="484" y2="505" gradientUnits="userSpaceOnUse"><stop stop-color="#f7d6af"/><stop offset=".6" stop-color="#d9875c"/><stop offset="1" stop-color="#c06540"/></linearGradient>
+    <filter id="sombra" x="20" y="30" width="600" height="570" filterUnits="userSpaceOnUse"><feDropShadow dx="8" dy="24" stdDeviation="16" flood-color="#4b4937" flood-opacity=".18"/></filter>
+  </defs>
+  <circle cx="328" cy="301" r="238" fill="#e5e9db"/>
+  <circle cx="328" cy="301" r="264" stroke="#c3cbb8" stroke-dasharray="3 9"/>
+  <path d="M100 453c110 77 302 83 450-22" stroke="#c0c7b4"/>
+  <ellipse cx="327" cy="537" rx="194" ry="19" fill="#3d4f39" opacity=".09"/>
+  <g filter="url(#sombra)">
+    <g transform="rotate(-15 252 290)">
+      <rect x="134" y="89" width="199" height="407" rx="33" fill="url(#verde)" stroke="#9aa68e" stroke-width="3"/>
+      <rect x="148" y="104" width="91" height="115" rx="24" fill="#8b9a82"/>
+      <circle cx="175" cy="135" r="20" fill="#1d3026" stroke="#a9b39b" stroke-width="3"/><circle cx="211" cy="185" r="20" fill="#1d3026" stroke="#a9b39b" stroke-width="3"/>
+      <circle cx="175" cy="135" r="10" fill="#293c3f"/><circle cx="211" cy="185" r="10" fill="#293c3f"/><circle cx="171" cy="131" r="4" fill="#53676c"/><circle cx="207" cy="181" r="4" fill="#53676c"/>
+      <circle cx="211" cy="130" r="7" fill="#e9e3c0"/><circle cx="175" cy="185" r="4" fill="#4c6050"/>
+      <path d="M218 344h27m-13.5-13.5v27" stroke="#9aaa91" stroke-width="3"/>
+      <path d="M333 168v49" stroke="#b1b8a6" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <g transform="rotate(12 407 324)">
+      <rect x="307" y="123" width="199" height="407" rx="33" fill="#253029" stroke="#899180" stroke-width="3"/>
+      <rect x="315" y="131" width="183" height="391" rx="27" fill="url(#laranja)"/>
+      <path d="M315 360c36-96 115-116 183-16v151c0 15-12 27-27 27H342c-15 0-27-12-27-27z" fill="#f2c193"/>
+      <path d="M315 428c43-104 130-106 183-46v113c0 15-12 27-27 27H342c-15 0-27-12-27-27z" fill="#98402e"/>
+      <path d="M315 490c50-78 113-74 183-41v46c0 15-12 27-27 27H342c-15 0-27-12-27-27z" fill="#c66541"/>
+      <path d="M315 514c57-45 115-53 183-18-1 14-13 26-27 26H342c-12 0-21-3-27-8z" fill="#e6a070"/>
+      <rect x="379" y="143" width="56" height="15" rx="7.5" fill="#253029"/>
+      <rect x="377" y="508" width="61" height="4" rx="2" fill="#fff3dc" opacity=".8"/>
+    </g>
+  </g>
+  <g transform="translate(510 116)" stroke="#bd4c31" stroke-width="3"><path d="M0-21V21M-21 0H21M-15-15 15 15M-15 15 15-15"/></g>
+  <circle cx="105" cy="373" r="8" fill="#bd4c31"/>
+  <circle cx="523" cy="462" r="5" fill="#77856b"/>
+</svg>
