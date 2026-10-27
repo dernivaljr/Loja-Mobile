@@ -153,7 +153,8 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--destaque); 
 .formulario-conta { margin-top: 27px; }
 .campo { display: flex; flex-direction: column; gap: 9px; margin-bottom: 20px; }
 .campo label { font-size: 12px; font-weight: 600; }
-.campo input { min-width: 0; width: 100%; font: inherit; font-size: 15px; color: var(--texto); padding: 13px 14px; background: var(--fundo); border: 1px solid #c9cfc2; border-radius: 5px; }
+.campo input, .campo select { min-width: 0; width: 100%; font: inherit; font-size: 15px; color: var(--texto); padding: 13px 14px; background: var(--fundo); border: 1px solid #c9cfc2; border-radius: 5px; }
+.campo select:focus-visible { outline: 3px solid var(--destaque); outline-offset: 4px; }
 .ajuda-campo { color: var(--secundario); font-size: 11px; line-height: 1.6; }
 .formulario-conta .botao { width: 100%; border: 0; font-family: inherit; cursor: pointer; margin-top: 3px; }
 .cartao-conta .alternativa-conta { text-align: center; margin-top: 26px; margin-bottom: 0; font-size: 12px; }

@@ -98,14 +98,26 @@ function buscar_usuario_por_email(PDO $conexao, string $email): ?array
     return $consulta->fetch() ?: null;
 }
 
-function cadastrar_cliente(PDO $conexao, string $nome, string $email, string $senha): void
+function requisicao_local(): bool
 {
-    // O perfil vem exclusivamente do servidor, mesmo que o POST contenha outro.
-    $consulta = $conexao->prepare("INSERT INTO usuarios (nome, email, senha, perfil) VALUES (:nome, :email, :senha, 'cliente')");
+    // Apenas o endereço da conexão é confiável; Host e cabeçalhos de proxy não são usados.
+    return in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1'], true);
+}
+
+function perfil_permitido_cadastro(string $perfil_solicitado): string
+{
+    return requisicao_local() && $perfil_solicitado === 'admin' ? 'admin' : 'cliente';
+}
+
+function cadastrar_usuario(PDO $conexao, string $nome, string $email, string $senha, string $perfil = 'cliente'): void
+{
+    // A regra também é aplicada na gravação, independentemente do formulário.
+    $consulta = $conexao->prepare('INSERT INTO usuarios (nome, email, senha, perfil) VALUES (:nome, :email, :senha, :perfil)');
     $consulta->execute([
         'nome' => $nome,
         'email' => $email,
         'senha' => password_hash($senha, PASSWORD_DEFAULT),
+        'perfil' => perfil_permitido_cadastro($perfil),
     ]);
 }
 

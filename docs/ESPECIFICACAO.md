@@ -23,8 +23,10 @@ O prompt 03 autorizou concluir conjuntamente as funcionalidades restantes.
 ### Contas e permissões
 
 Cadastro exige nome até 120 caracteres, e-mail válido/único até 254, senha com
-mínimo de 8 caracteres/máximo de 72 bytes e confirmação igual. Perfil público
-é sempre cliente. Senha usa password_hash e não é repopulada após falha.
+mínimo de 8 caracteres/máximo de 72 bytes e confirmação igual. O formulário
+oferece Cliente e Administrador. Admin só pode ser gravado quando REMOTE_ADDR
+é exatamente 127.0.0.1 ou ::1; fora desses endereços, o servidor força cliente,
+ignorando Host e cabeçalhos de proxy. Senha usa password_hash e não é repopulada após falha.
 
 Login consulta por prepared statement, usa password_verify e regenera o ID de
 sessão. Guarda ID, nome, perfil e os dados necessários de carrinho/CSRF. O
@@ -32,8 +34,8 @@ carrinho do visitante é preservado. Credenciais inválidas recebem erro genéri
 
 Visitantes acessam catálogo/detalhes/carrinho. Painel exige admin; cliente recebe
 403 e visitante vai ao login. Checkout exige cliente, conferindo o perfil também
-no banco. Logout é POST/CSRF e limpa sessão/cookie. Promoção manual por SQL fica
-documentada no README; sem senha fixa ou cadastro público de administrador.
+no banco. Logout é POST/CSRF e limpa sessão/cookie. Cadastro local de administrador
+documentado no README; sem senha fixa ou cadastro remoto de administrador.
 
 ### Produtos
 
@@ -107,3 +109,13 @@ com porta explícita. Resultados e limitações em VALIDACAO.md.
 
 Limites intencionais: ambiente acadêmico, sem frete, pagamento, cupons,
 relatórios avançados, recuperação de senha ou confirmação de e-mail.
+
+## Ajustes da etapa 04
+
+Apresentação pública revisada com linguagem de loja virtual, sem referências
+acadêmicas ou demonstrações técnicas. Layout e identidade visual preservados.
+Checkout informa que não há pagamento online, sem anunciar entrega ou e-mails.
+README concentra somente apresentação, instalação e uso. Roteiros e evidências
+técnicas permanecem em tests e VALIDACAO.md, preservando os resultados anteriores.
+Aplicação configurada no Apache/MySQL normais do XAMPP e mantida acessível em
+http://localhost/Loja-Mobile/ ao final desta etapa, com banco isolado e conexão local fora do Git.

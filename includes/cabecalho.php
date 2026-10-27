@@ -7,7 +7,7 @@ $usuario_navegacao = obter_usuario_logado();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conheça o catálogo de demonstração da Loja Mobile, um projeto acadêmico de e-commerce de celulares.">
+    <meta name="description" content="Encontre seu próximo celular na Loja Mobile. Explore os modelos, confira preços e disponibilidade e faça seu pedido.">
     <meta name="theme-color" content="#f6f5f1">
     <title><?= escapar($titulo_pagina ?? 'Loja Mobile — Seu próximo celular começa aqui') ?></title>
     <link rel="icon" href="<?= escapar(url_loja('assets/img/favicon.svg')) ?>" type="image/svg+xml">
@@ -24,7 +24,7 @@ $usuario_navegacao = obter_usuario_logado();
             <nav aria-label="Navegação principal">
                 <a href="<?= escapar(url_loja('#inicio')) ?>">Início</a>
                 <a href="<?= escapar(url_loja('#produtos')) ?>">Celulares</a>
-                <a href="<?= escapar(url_loja('#sobre')) ?>">Sobre o projeto</a>
+                <a href="<?= escapar(url_loja('#sobre')) ?>">Sobre a loja</a>
             </nav>
             <div class="navegacao-conta">
                 <a href="<?= escapar(url_loja('carrinho.php')) ?>">Carrinho (<?= count(is_array($_SESSION['carrinho'] ?? null) ? $_SESSION['carrinho'] : []) ?>)</a>

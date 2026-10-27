@@ -227,3 +227,88 @@ dos dois commits das etapas anteriores. O remoto de entrega é privado e não
 inclui credenciais, configuração local, sessões ou uploads.
 
 Repositório verificado: https://github.com/dernivaljr/Loja-Mobile (privado).
+
+## Etapa 04 — Apresentação, perfis locais e execução persistente no XAMPP
+
+Validação executada em 26/10/2026. Os registros históricos acima foram
+preservados; as alterações de política e apresentação desta etapa estão abaixo.
+
+### Ambiente e URL confirmados
+
+- XAMPP existente em C:\xampp; Apache 2.4.58, PHP 8.2.12 e MariaDB 10.4.32.
+- Inspeção inicial confirmou que Apache e MySQL não estavam ativos. Ambos
+  foram iniciados em segundo plano, sem interromper serviços existentes.
+- Apache normal nas portas 80/443 e MySQL normal na 3306. Configurações globais
+  desses serviços não foram alteradas.
+- Vínculo C:\xampp\htdocs\Loja-Mobile para o checkout existente; o destino não
+  existia e nenhum arquivo de outra aplicação foi substituído.
+- Banco novo e isolado, terminado em _teste, importado com schema/seed atuais.
+  Não houve alteração de estrutura SQL nesta etapa nem substituição de bancos.
+- Conta MySQL específica, com senha aleatória e permissões somente no banco
+  da loja. Conexão gravada em config/banco.php, ignorado pelo Git.
+- URL real aberta no navegador e confirmada por HTTP: http://localhost/Loja-Mobile/.
+- Apache, MySQL, vínculo, banco e conexão local são mantidos funcionando após
+  a entrega, conforme solicitado. Não foram usados servidores PHP temporários.
+
+### Cadastro e segurança por origem
+
+- Formulário oferece Cliente e Administrador; escolha preservada após validação.
+- A política é aplicada no controlador e novamente na gravação por prepared
+  statement: admin somente com REMOTE_ADDR igual a 127.0.0.1 ou ::1.
+- Host, X-Forwarded-For, X-Real-IP e Forwarded não autorizam perfil admin.
+- tests/perfis.php verificou gravações reais com endereços IPv4/IPv6 locais,
+  endereço remoto, 127.0.0.2, IPv4 mapeado em IPv6 e ausência de endereço.
+  Somente os dois endereços explicitamente permitidos gravaram admin.
+- tests/perfis-http.php executou requisições HTTP reais por 127.0.0.1 e ::1
+  com Host externo: ambas criaram admin. Pelo IPv4 de rede do próprio computador,
+  enviando Host localhost e cabeçalhos de proxy locais falsificados, gravou cliente.
+- Hash de senha, validações, CSRF, sessões e redirecionamento ao login preservados.
+- tests/integracao.php foi adaptado à nova política: criação de admin local pelo
+  formulário, sem promoção SQL. Seus demais cenários e verificações foram preservados.
+
+### Testes executados e resultados
+
+| Verificação | Resultado |
+| --- | --- |
+| Sintaxe | php -l nos 25 arquivos PHP versionados, sem erros |
+| Integração HTTP existente | Todos os cenários aprovados no Apache normal em 127.0.0.1:80/Loja-Mobile/ |
+| Concorrência existente | Última unidade vendida uma vez; confirmação duplicada retorna mesmo pedido; rollback induzido preserva estoque e integridade |
+| Política de perfis | Matriz de endereços e requisições reais IPv4/IPv6/rede aprovadas, incluindo falsificação de cabeçalhos |
+| Catálogo/imagens | HTTP 200 e todas as imagens carregadas no navegador |
+| Cadastro de admin local | Selecionado Administrador, cadastro concluído, login direcionado ao painel |
+| Cadastro de cliente | Selecionado Cliente, cadastro concluído e login direcionado à loja |
+| Produto com upload | Cadastrado pelo navegador com PNG real e persistido no banco |
+| Edição | Preço alterado de 1599.90 para 1499.90 e estoque de 4 para 6, preservando a imagem |
+| Carrinho | Produto adicionado e quantidade alterada de 1 para 2 pelo navegador; total atualizado para 2999.80 |
+| Checkout | Botão Confirmar pedido concluiu pedido com duas unidades, total 2999.80 e status confirmado |
+| Banco e estoque | Consulta PDO confirmou quantidade 2, preço unitário 1499.90 e estoque de 6 para 4 |
+| Painel de pedidos | Pedido criado pelo navegador exibido com cliente, valor, data e status |
+| Permissões | Cliente acessando a URL do painel recebeu acesso restrito; bloqueios HTTP existentes também passaram |
+| Exclusão | Produto descartável excluído pelo formulário administrativo após limpar somente seu pedido descartável |
+| Logout | Realizado para cliente e admin; navegação retornou ao estado visitante |
+| Segurança existente | SQL Injection, XSS, CSRF, upload inválido, código duplicado, excesso de estoque e pedido de outra conta aprovados pelo roteiro existente |
+| Layout | Desktop 1280 px e celular 390 px conferidos, incluindo seleção de perfil, checkout e navegação; sem overflow horizontal da página |
+| Textos | Páginas públicas sem referências acadêmicas, protótipo, teste ou demonstração; checkout informa ausência de pagamento online |
+
+As contas, o produto e o pedido usados no navegador eram descartáveis, com
+identificadores aleatórios próprios. A limpeza removeu somente esses registros
+e a imagem enviada, sem redefinir estoque nem excluir dados de outras contas.
+
+### Apresentação, documentação e limitações
+
+Cabeçalho, rodapé, landing page, catálogo, cadastro, login, detalhes, carrinho,
+checkout e confirmação receberam linguagem de e-commerce. Nenhuma promessa de
+pagamento integrado, entrega ou e-mail automático foi adicionada. A apresentação
+administrativa foi revisada e sua gestão existente preservada.
+
+README atualizado somente com descrição, funcionalidades, tecnologias,
+requisitos, configuração/importação, inicialização, contas e uso da loja/painel,
+além da estrutura resumida. Seção e comandos de testes removidos do README.
+Scripts anteriores mantidos em tests; novos testes de origem também em tests.
+
+Limitação: navegação validada em HTTP local. HTTPS com certificado confiável
+não foi validado; o certificado padrão do XAMPP não foi usado para contornar
+avisos do navegador. Nenhuma intervenção manual foi solicitada para os testes.
+
+Configuração e dados locais continuam fora do Git. O commit desta etapa é enviado
+ao remoto já configurado, preservando a visibilidade privada do repositório.

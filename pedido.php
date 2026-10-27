@@ -30,7 +30,7 @@ require __DIR__ . '/includes/cabecalho.php';
 ?>
 <main class="container area-conta" id="conteudo"><section class="cartao-conta painel-admin">
     <?php if ($erro): ?><h1>Seu pedido<span class="ponto">.</span></h1><div class="mensagem mensagem-erro" role="alert"><?= escapar($erro) ?></div>
-    <?php else: ?><span class="sobretitulo">PEDIDO #<?= (int) $pedido['id'] ?> · <?= escapar($pedido['status']) ?></span><h1>Nova conexão confirmada<span class="ponto">.</span></h1><p>Seu pedido foi registrado. Esta é uma compra simulada, sem cobrança.</p>
+    <?php else: ?><span class="sobretitulo">PEDIDO #<?= (int) $pedido['id'] ?> · <?= escapar($pedido['status']) ?></span><h1>Pedido confirmado<span class="ponto">.</span></h1><p>Recebemos seu pedido. Confira os itens e o valor total abaixo. Nenhum pagamento online foi realizado.</p>
     <ul class="itens-resumo"><?php foreach ($itens as $item): ?><li><span><?= (int) $item['quantidade'] ?> × <?= escapar($item['marca'] . ' ' . $item['modelo']) ?></span><strong><?= escapar(formatar_preco(centavos_para_decimal(preco_em_centavos($item['preco_unitario']) * (int) $item['quantidade']))) ?></strong></li><?php endforeach; ?></ul>
     <div class="linha-total"><span>Total</span><strong><?= escapar(formatar_preco($pedido['total'])) ?></strong></div><p>Registrado em <?= escapar(date('d/m/Y H:i', strtotime($pedido['criado_em']))) ?>.</p>
     <?php endif; ?><a class="botao" href="<?= escapar(url_loja('#produtos')) ?>">Voltar ao catálogo <span aria-hidden="true">↗</span></a>

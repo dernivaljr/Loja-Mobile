@@ -33,7 +33,7 @@ require __DIR__ . '/includes/cabecalho.php';
                     <button class="botao" type="submit">Adicionar ao carrinho <span aria-hidden="true">↗</span></button>
                 </form>
             <?php else: ?><p class="indisponivel">Indisponível no momento · sem estoque para compra.</p><?php endif; ?>
-            <p class="ajuda-campo">Compra simulada para fins acadêmicos. Nenhum pagamento será realizado.</p>
+            <p class="ajuda-campo">Confira o valor total e revise os itens antes de confirmar seu pedido.</p>
         </div>
     </section>
     <?php endif; ?>

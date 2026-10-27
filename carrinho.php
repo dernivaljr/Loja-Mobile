@@ -53,7 +53,7 @@ require __DIR__ . '/includes/cabecalho.php';
     <?php if ($sucesso): ?><div class="mensagem mensagem-sucesso" role="status"><?= escapar($sucesso) ?></div><?php endif; ?>
     <?php if ($erros): ?><div class="mensagem mensagem-erro" role="alert"><ul><?php foreach ($erros as $erro): ?><li><?= escapar($erro) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
     <?php if (!$resumo['itens']): ?>
-        <div class="estado-catalogo"><h2>Seu carrinho ainda está vazio.</h2><p>Encontre um celular para começar sua compra de demonstração.</p><a class="botao" href="<?= escapar(url_loja('#produtos')) ?>">Explorar celulares <span aria-hidden="true">↗</span></a></div>
+        <div class="estado-catalogo"><h2>Seu carrinho ainda está vazio.</h2><p>Explore os celulares e adicione seus favoritos para começar.</p><a class="botao" href="<?= escapar(url_loja('#produtos')) ?>">Explorar celulares <span aria-hidden="true">↗</span></a></div>
     <?php else: ?>
         <div class="layout-compra"><div class="lista-carrinho">
             <?php foreach ($resumo['itens'] as $item): ?>
@@ -68,7 +68,7 @@ require __DIR__ . '/includes/cabecalho.php';
                 </div><strong><?= escapar(formatar_preco(centavos_para_decimal($item['subtotal']))) ?></strong>
             </article>
             <?php endforeach; ?>
-        </div><aside class="resumo-compra"><h2>Resumo</h2><div class="linha-total"><span>Total</span><strong><?= escapar(formatar_preco(centavos_para_decimal($resumo['total']))) ?></strong></div><p>Compra simulada, sem cobrança ou frete.</p>
+        </div><aside class="resumo-compra"><h2>Resumo</h2><div class="linha-total"><span>Total</span><strong><?= escapar(formatar_preco(centavos_para_decimal($resumo['total']))) ?></strong></div><p>Revise suas escolhas antes de confirmar o pedido.</p>
             <?php if (!$resumo['erros'] && http_response_code() !== 503): ?><a class="botao" href="<?= escapar(url_loja('checkout.php')) ?>">Revisar compra <span aria-hidden="true">↗</span></a><?php endif; ?>
             <a class="link-voltar" href="<?= escapar(url_loja('#produtos')) ?>">Continuar explorando</a>
         </aside></div>

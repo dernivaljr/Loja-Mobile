@@ -43,8 +43,8 @@ require __DIR__ . '/includes/cabecalho.php';
     <main class="container area-conta" id="conteudo">
         <section class="cartao-conta" aria-labelledby="titulo-login">
             <span class="sobretitulo">BOM TER VOCÊ POR AQUI</span>
-            <h1 id="titulo-login">Sua próxima conexão<span class="ponto">.</span></h1>
-            <p>Entre com sua conta e continue explorando a Loja Mobile.</p>
+            <h1 id="titulo-login">Entre na sua conta<span class="ponto">.</span></h1>
+            <p>Acesse sua conta para continuar suas compras na Loja Mobile.</p>
             <?php if ($sucesso): ?><div class="mensagem mensagem-sucesso" role="status"><?= escapar($sucesso) ?></div><?php endif; ?>
             <?php if ($erros): ?>
                 <div class="mensagem mensagem-erro" role="alert"><?php foreach ($erros as $mensagem): ?><p><?= escapar($mensagem) ?></p><?php endforeach; ?></div>
@@ -57,6 +57,6 @@ require __DIR__ . '/includes/cabecalho.php';
             </form>
             <p class="alternativa-conta">Ainda não tem uma conta? <a href="<?= escapar(url_loja('cadastro.php')) ?>">Cadastrar</a></p>
         </section>
-        <p class="nota-conta">Uma loja em construção. Um aprendizado de verdade.</p>
+        <p class="nota-conta">Seu próximo celular está a poucos passos.</p>
     </main>
 <?php require __DIR__ . '/includes/rodape.php'; ?>

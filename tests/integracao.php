@@ -44,16 +44,16 @@ function abrir(CurlHandle $curl, string $pagina, ?array $dados = null, bool $mul
     preg_match('/name="checkout_token" value="([a-f0-9]+)"/', $html, $chave);
     return ['status' => curl_getinfo($curl, CURLINFO_HTTP_CODE), 'html' => $html, 'headers' => $cabecalho, 'destino' => trim($destino[1] ?? ''), 'csrf' => $csrf[1] ?? '', 'chave' => $chave[1] ?? ''];
 }
-function cadastrar(CurlHandle $curl, string $email): int
+function cadastrar(CurlHandle $curl, string $email, string $perfil = 'cliente'): int
 {
     global $senha, $pdo;
     $pagina = abrir($curl, 'cadastro.php');
-    $pagina = abrir($curl, 'cadastro.php', ['csrf' => $pagina['csrf'], 'nome' => '<b>Cliente de Teste</b>', 'email' => $email, 'senha' => $senha, 'confirmacao_senha' => $senha, 'perfil' => 'admin']);
+    $pagina = abrir($curl, 'cadastro.php', ['csrf' => $pagina['csrf'], 'nome' => '<b>Cliente de Teste</b>', 'email' => $email, 'senha' => $senha, 'confirmacao_senha' => $senha, 'perfil' => $perfil]);
     conferir($pagina['status'] === 303, 'cadastro válido redireciona ao login');
     $consulta = $pdo->prepare('SELECT id, senha, perfil FROM usuarios WHERE email=?');
     $consulta->execute([$email]);
     $usuario = $consulta->fetch();
-    conferir($usuario['perfil'] === 'cliente' && password_verify($senha, $usuario['senha']) && $senha !== $usuario['senha'], 'cadastro fixa cliente e armazena hash');
+    conferir($usuario['perfil'] === $perfil && password_verify($senha, $usuario['senha']) && $senha !== $usuario['senha'], 'cadastro grava o perfil permitido e armazena hash');
     return (int) $usuario['id'];
 }
 function entrar(CurlHandle $curl, string $email): array
@@ -79,8 +79,7 @@ try {
     }
     $admin = navegador();
     $email_admin = strtolower($prefixo) . '-admin@example.invalid';
-    $admin_id = cadastrar($admin, $email_admin); $usuarios[] = $admin_id;
-    $pdo->prepare("UPDATE usuarios SET perfil='admin' WHERE id=?")->execute([$admin_id]);
+    $admin_id = cadastrar($admin, $email_admin, 'admin'); $usuarios[] = $admin_id;
     conferir(str_ends_with(entrar($admin, $email_admin)['destino'], '/admin/index.php'), 'login de admin direciona ao painel');
     conferir(abrir($admin, 'checkout.php')['status'] === 403, 'admin não finaliza como cliente');
     $pagina = abrir($admin, 'admin/produto.php');
